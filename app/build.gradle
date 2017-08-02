@@ -1,0 +1,123 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+ext.supportVersion = '26.0.0'
+ext.constraintLayoutVersion = '1.0.2'
+ext.daggerVersion = '2.11'
+ext.retrofitVersion = '2.3.0'
+ext.autoValueVersion = '1.4.1'
+ext.butterknifeVersion = '8.7.0'
+ext.mosbyMvpVersion = '3.0.4'
+ext.okHttpVersion = '3.8.1'
+ext.rxBindingVersion = '2.0.0'
+ext.rxJavaVersion = '2.1.1'
+ext.rxAndroidVersion = '2.0.1'
+ext.glideVersion = '3.8.0'
+
+def GIPHY_API_KEY = System.getenv("GIPHY_API_KEY")
+if (GIPHY_API_KEY == null) {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    GIPHY_API_KEY = properties.getProperty('buildNumber')?:"NoApiKeyFound"
+}
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
+    defaultConfig {
+        applicationId "com.example.kevin.giphy"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            buildConfigField "String", "GIPHY_API_KEY", "\"1200cd414a37490a85ae0d578708d8b2\""
+        }
+        release {
+            buildConfigField "String", "GIPHY_API_KEY", "\"1200cd414a37490a85ae0d578708d8b2\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        encoding 'UTF-8'
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+retrolambda {
+    javaVersion JavaVersion.VERSION_1_7
+    incremental true
+}
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    testCompile 'junit:junit:4.12'
+
+    compile "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
+
+    compile "com.android.support:cardview-v7:$supportVersion"
+    compile "com.android.support:appcompat-v7:$supportVersion"
+    compile"com.android.support:design:$supportVersion"
+    compile "com.android.support:recyclerview-v7:$supportVersion"
+    compile"com.android.support:support-annotations:$supportVersion"
+
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    compile "com.hannesdorfmann.mosby3:mvp:$mosbyMvpVersion"
+    compile "com.hannesdorfmann.mosby3:viewstate:$mosbyMvpVersion"
+    compile "com.hannesdorfmann.mosby3:mvp-nullobject-presenter:$mosbyMvpVersion"
+
+    compile "com.squareup.okhttp3:okhttp:$okHttpVersion"
+    compile "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+
+    compile "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    compile "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+
+    compile "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion"
+    compile "com.jakewharton.rxbinding2:rxbinding-support-v4:$rxBindingVersion"
+    compile "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBindingVersion"
+    compile "com.jakewharton.rxbinding2:rxbinding-design:$rxBindingVersion"
+    compile "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rxBindingVersion"
+
+    compile "com.github.bumptech.glide:glide:$glideVersion"
+    compile('com.github.bumptech.glide:okhttp3-integration:1.4.0') {
+        exclude group: 'glide-parent'
+    }
+
+    compile "com.google.dagger:dagger:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+    compile "com.jakewharton:butterknife:$butterknifeVersion"
+
+    provided "com.google.auto.value:auto-value:$autoValueVersion"
+    annotationProcessor "com.google.auto.value:auto-value:$autoValueVersion"
+
+    annotationProcessor 'com.ryanharter.auto.value:auto-value-gson:0.5.0'
+    provided 'com.ryanharter.auto.value:auto-value-gson:0.5.0'
+
+    annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.5'
+    compile 'com.ryanharter.auto.value:auto-value-parcel-adapter:0.2.5'
+
+    compile 'com.rm:longpresspopup:1.0.1'
+
+    compile 'com.google.code.gson:gson:2.8.0'
+
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+}

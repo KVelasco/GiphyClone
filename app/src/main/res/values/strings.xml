@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Giphy</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Search Giphy</string>
+    <string name="error_message">Unable to get results, Please try again! </string>
+    <string name="permission_error">Write permissions required inorder to complete action</string>
+    <string name="empty_message">No search results returned. Try a different search!</string>
+    <string name="load_gif_error_message">Error loading GIF</string>
+</resources>
